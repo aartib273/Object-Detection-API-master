@@ -82,5 +82,9 @@ $(document).ready(function() {
       elem.setAttribute('id', 'img-card-2');
       elem.src = data['url'];
       document.getElementById("result-image").appendChild(elem);
+      var yolo4 = document.getElementById('yolo4_prediction');
+      yolo4.innerHTML = data['yolo4_prediction'];
+      var eff = document.getElementById('eff_prediction');
+      eff.innerHTML = data['eff_prediction'];
     }
   }

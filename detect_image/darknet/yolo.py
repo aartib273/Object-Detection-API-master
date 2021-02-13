@@ -3,7 +3,7 @@ import cv2
 import time
 import sys
 import logging
-
+from cfg.config import *
 #logging.basicConfig(stream=sys.stdout)
 #LOGGER = logging.getLogger(__name__)
 #LOGGER.setLevel(ODS_LOG_LEVEL)

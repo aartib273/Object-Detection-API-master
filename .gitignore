@@ -5,3 +5,4 @@ yolov3.weights
 efficientnetb7.h5
 staticfiles
 weights/
+.idea/
