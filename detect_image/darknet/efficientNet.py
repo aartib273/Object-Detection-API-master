@@ -1,9 +1,6 @@
 import time
-import logging
-import tensorflow as tf
 
 import sys
-from tensorflow.python.keras.applications import imagenet_utils
 
 import json
 import numpy as np
@@ -22,6 +19,8 @@ class EfficientNetB7Wrapper:
 
     @staticmethod
     def load_model():
+        import tensorflow as tf
+        from tensorflow.python.keras.applications import imagenet_utils
         """ Load the model from disk. This should be called before the predict API """
         start_time = time.time()
         #LOGGER.info("Start loading the EfficientNetB7 model")
@@ -40,6 +39,7 @@ class EfficientNetB7Wrapper:
 
     @staticmethod
     def predict(image_path):
+        import tensorflow as tf
         """ Return the prediction for an image. """
         if not EfficientNetB7Wrapper.is_model_loaded:
             raise ModelNotLoadedError

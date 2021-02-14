@@ -1,4 +1,3 @@
-from yolov4.tf import YOLOv4
 import cv2
 import time
 import sys
@@ -15,8 +14,8 @@ class YoloV4Wrapper:
     is_model_loaded = False
     yolo = None
 
-    @staticmethod
     def load_model():
+        from yolov4.tf import YOLOv4
         """ Load the model from disk. This should be called before the predict API """
         start_time = time.time()
         # LOGGER.info("Start loading the YoloV4 model")
@@ -26,9 +25,8 @@ class YoloV4Wrapper:
         YoloV4Wrapper.yolo.load_weights(YOLOV4_WEIGHTS, weights_type="yolo")
         YoloV4Wrapper.is_model_loaded = True
         exec_time = time.time() - start_time
-    # LOGGER.info("Done loading the YoloV4 model in {:.2f} ms".format(exec_time * 1000))
+        # LOGGER.info("Done loading the YoloV4 model in {:.2f} ms".format(exec_time * 1000))
 
-    @staticmethod
     def predict(image_path):
         """ Return the prediction for an image. """
         if not YoloV4Wrapper.is_model_loaded:
@@ -54,7 +52,6 @@ class YoloV4Wrapper:
             predictions.append({'id': 'coco_' + str(class_id), 'name': class_name, 'confidence': confidence_level})
         return predictions
 
-    @staticmethod
     def _read_classes_names(classes_name_path):
         """
         @return {id: class name}
