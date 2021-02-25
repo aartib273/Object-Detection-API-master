@@ -82,9 +82,48 @@ $(document).ready(function() {
       elem.setAttribute('id', 'img-card-2');
       elem.src = data['url'];
       document.getElementById("result-image").appendChild(elem);
-      var yolo4 = document.getElementById('yolo4_prediction');
-      yolo4.innerHTML = data['yolo4_prediction'];
-      var eff = document.getElementById('eff_prediction');
-      eff.innerHTML = data['eff_prediction'];
+      // var yolo4 = document.getElementById('yolo4_prediction');
+      // yolo4.innerHTML = data['yolo4_prediction'];
+      // var eff = document.getElementById('eff_prediction');
+      // eff.innerHTML = data['eff_prediction'];
+      buildHtmlTable(data['yolo4_prediction'],'#excelDataTableyolo4_prediction')
+      buildHtmlTable(data['eff_prediction'],'#excelDataTableeff_prediction')
+      
     }
+  }
+  function buildHtmlTable(myList, selector) {
+    console.log(myList)
+    myList = JSON.parse(myList);
+    var columns = addAllColumnHeaders(myList, selector);
+  
+    for (var i = 0; i < myList.length; i++) {
+      var row$ = $('<tr/>');
+      for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+        var cellValue = myList[i][columns[colIndex]];
+        if (cellValue == null) cellValue = "";
+        row$.append($('<td/>').html(cellValue));
+      }
+      $(selector).append(row$);
+    }
+  }
+  
+  // Adds a header row to the table and returns the set of columns.
+  // Need to do union of keys from all records as some records may not contain
+  // all records.
+  function addAllColumnHeaders(myList, selector) {
+    var columnSet = [];
+    var headerTr$ = $('<tr/>');
+  
+    for (var i = 0; i < myList.length; i++) {
+      var rowHash = myList[i];
+      for (var key in rowHash) {
+        if ($.inArray(key, columnSet) == -1) {
+          columnSet.push(key);
+          headerTr$.append($('<th/>').html(key));
+        }
+      }
+    }
+    $(selector).append(headerTr$);
+  
+    return columnSet;
   }

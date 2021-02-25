@@ -2,7 +2,9 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+# from yolov4.tf import YOLOv4
+import tensorflow as tf
+from tensorflow.python.keras.applications import imagenet_utils
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'website.settings')

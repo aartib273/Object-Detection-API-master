@@ -16,6 +16,7 @@ Including another URLconf
 from django.urls import path
 from django.views.generic import RedirectView
 from detect_image.views import detect, yolo_detect_api
+# from detect_image.yolo4 import detect, yolo_detect_api
 from django.conf import settings
 from django.conf.urls.static import static
 

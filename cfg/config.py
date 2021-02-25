@@ -16,13 +16,13 @@ ONE_MB = 1024 * 1024
 MAX_IMAGE_SIZE = os.getenv('MAX_IMAGE_SIZE', 20 * ONE_MB)
 
 # EfficentNetB7 settings
-EFFICIENTNETB7_WEIGHTS = '../weights/efficientnetb7.h5'
-EFFICIENTNETB7_CLASSES = '../weights/imagenet_class_index.json'
+EFFICIENTNETB7_WEIGHTS = 'weights/efficientnetb7.h5'
+EFFICIENTNETB7_CLASSES = 'weights/imagenet_class_index.json'
 
 
 # YoloV4 settings
-YOLOV4_WEIGHTS = '../weights/yolov4.weights'
-YOLOV4_CLASSES = '../data/coco.names'
+YOLOV4_WEIGHTS = 'weights/yolov4.weights'
+YOLOV4_CLASSES = 'data/coco.names'
 
 AGGREGATE_CONFIDENCE_THRESHOLD = 0.5
 

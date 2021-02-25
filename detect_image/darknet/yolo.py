@@ -31,7 +31,8 @@ class YoloV4Wrapper:
         """ Return the prediction for an image. """
         if not YoloV4Wrapper.is_model_loaded:
             return print("ModelNotLoaded")
-        frame = cv2.imread(image_path)
+        # frame = cv2.imread(image_path)
+        frame =image_path
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         start_time = time.time()

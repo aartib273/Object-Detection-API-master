@@ -3,7 +3,8 @@ from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.temp import NamedTemporaryFile
-
+import traceback2 as traceback
+import json
 import io
 import os
 from PIL import Image
@@ -64,9 +65,16 @@ def run_yolo4(image_path):
 
 def run_effiecientNet(image_path):
     """ Test that the model is able to predict an Egyptian cat with a confidence level higher than 50% """
-    EfficientNetB7Wrapper.load_model()
-    predictions = EfficientNetB7Wrapper.predict(image_path)
-    return predictions
+    try:
+        EfficientNetB7Wrapper.load_model()
+        predictions = EfficientNetB7Wrapper.predict(image_path)
+        return predictions
+        # return "Success"
+    except Exception:
+        print("******************")
+        traceback.print_exc()
+        print("******************")
+        return "Failed"
     # only_egyptian_cat_predictions = list(filter(lambda prediction: prediction['name'] == 'Egyptian_cat', predictions))
     # print(only_egyptian_cat_predictions)
    
@@ -75,20 +83,33 @@ def yolo_detect(original_image):
     cfg_file = './cfg/yolov3.cfg'
     weight_file = './weights/yolov3.weights'
     namesfile = 'data/coco.names'
+    try:
+        m = Darknet(cfg_file)
+        m.load_weights(weight_file)
+        class_names = load_class_names(namesfile)
 
-    m = Darknet(cfg_file)
-    m.load_weights(weight_file)
-    class_names = load_class_names(namesfile)
+        resized_image = cv2.resize(original_image, (m.width, m.height))
 
-    resized_image = cv2.resize(original_image, (m.width, m.height))
-
-    nms_thresh = 0.6
-    iou_thresh = 0.4
-    yolo4_prediction = "Test yolo4_prediction"
-    eff_prediction = "Test eff_prediction"
-    boxes = detect_objects(m, resized_image, iou_thresh, nms_thresh)
-    url = plot_boxes(original_image, boxes, class_names, plot_labels = True)
-    objects = print_objects(boxes, class_names)
-    yolo4_prediction = self.run_yolo4(original_image)
-    # eff_prediction = self.run_effiecientNet(original_image)
-    return objects, url, yolo4_prediction, eff_prediction
+        nms_thresh = 0.6
+        iou_thresh = 0.4
+        yolo4_prediction = "Test yolo4_prediction"
+        eff_prediction = "Test eff_prediction"
+        boxes = detect_objects(m, resized_image, iou_thresh, nms_thresh)
+        url = plot_boxes(original_image, boxes, class_names, plot_labels = True)
+        objects = print_objects(boxes, class_names)
+        yolo4_prediction = run_yolo4(original_image)
+        yolo4_prediction = json.dumps(yolo4_prediction)
+        eff_prediction = run_effiecientNet(original_image)
+        eff_prediction = json.dumps(eff_prediction)
+        print("*****************")
+        print(yolo4_prediction)
+        print("*****************")
+        print("*****************")
+        print(eff_prediction)
+        print("*****************")
+        return objects, url, yolo4_prediction, eff_prediction
+    except Exception:
+        print("********yolo_detect**********")
+        traceback.print_exc()
+        print("********yolo_detect**********")
+        return "Failed"

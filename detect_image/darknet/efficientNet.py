@@ -5,6 +5,7 @@ import sys
 import json
 import numpy as np
 import cv2
+from cfg.config import *
 
 #logging.basicConfig(stream=sys.stdout)
 #LOGGER = logging.getLogger(__name__)
@@ -43,8 +44,9 @@ class EfficientNetB7Wrapper:
         """ Return the prediction for an image. """
         if not EfficientNetB7Wrapper.is_model_loaded:
             raise ModelNotLoadedError
-
-        image = cv2.imread(image_path)
+        print("*****************----->",image_path)
+        # image = cv2.imread(image_path)
+        image = image_path
 
         image_size = EfficientNetB7Wrapper.model.input_shape[1]
         image = cv2.resize(image, (image_size, image_size))
